@@ -265,6 +265,11 @@ def combined_solution(A, B, F, G, parallax_mas, dataset, gaia_T0_offset):
     chara_sep, chara_PA, chara_phase = sky_position(
         a_rel_mas, e, P_days, i_deg, omega_deg, Omega_deg, T0_MJD, t_chara_MJD)
 
+    # CHARA-implied orbit scale: observed sep / predicted sep rescales a_rel
+    chara_scale       = CHARA['sep_mas'] / chara_sep   # <1 means CHARA implies smaller orbit
+    a_rel_mas_chara   = a_rel_mas * chara_scale
+    a_rel_AU_chara    = a_rel_AU  * chara_scale
+
     return {
         'label'           : dataset['label'],
         'caveat'          : dataset.get('caveat'),
@@ -297,6 +302,9 @@ def combined_solution(A, B, F, G, parallax_mas, dataset, gaia_T0_offset):
         'chara_sep_pred'  : chara_sep,
         'chara_PA_pred'   : chara_PA,
         'chara_phase'     : chara_phase,
+        'chara_scale'     : chara_scale,
+        'a_rel_mas_chara' : a_rel_mas_chara,
+        'a_rel_AU_chara'  : a_rel_AU_chara,
     }
 
 
@@ -458,6 +466,10 @@ def print_solution(sol):
           f"   Δ = {sol['chara_sep_pred']-CHARA['sep_mas']:+.4f} mas")
     print(f"    predicted PA         = {sol['chara_PA_pred']:.3f} deg    observed: {CHARA['PA_deg']:.3f} deg"
           f"    Δ = {sol['chara_PA_pred']-CHARA['PA_deg']:+.4f} deg")
+    print(f"  CHARA orbit scale")
+    print(f"    a_rel (spectroscopic) = {sol['a_rel_mas']:.4f} mas  ({sol['a_rel_AU']:.4f} AU)")
+    print(f"    a_rel (CHARA-implied) = {sol['a_rel_mas_chara']:.4f} mas  ({sol['a_rel_AU_chara']:.4f} AU)"
+          f"   scale = {sol['chara_scale']:.4f}  ({100*(sol['chara_scale']-1):+.2f}%)")
 
 
 def print_comparison(solutions):
@@ -484,8 +496,10 @@ def print_comparison(solutions):
         ("periastron (AU)",       'peri_AU',        '{:10.3f}', '{:10.3f}', '{:+9.3f}'),
         ("apastron (AU)",         'apo_AU',         '{:10.3f}', '{:10.3f}', '{:+9.3f}'),
         ("L_heavy/L_light (G)",   'L_ratio_inferred','{:10.3f}','{:10.3f}','{:+9.3f}'),
-        ("CHARA sep pred (mas)",  'chara_sep_pred', '{:10.4f}', '{:10.4f}', '{:+9.4f}'),
-        ("CHARA PA pred (deg)",   'chara_PA_pred',  '{:10.3f}', '{:10.3f}', '{:+9.3f}'),
+        ("CHARA sep pred (mas)",  'chara_sep_pred',   '{:10.4f}', '{:10.4f}', '{:+9.4f}'),
+        ("CHARA PA pred (deg)",   'chara_PA_pred',    '{:10.3f}', '{:10.3f}', '{:+9.3f}'),
+        ("a_rel CHARA-implied (mas)",'a_rel_mas_chara','{:10.4f}', '{:10.4f}', '{:+9.4f}'),
+        ("CHARA scale factor",    'chara_scale',      '{:10.4f}', '{:10.4f}', '{:+9.4f}'),
     ]
     for name, key, f0, f1, fd in pairs:
         v0, v1 = s0[key], s1[key]

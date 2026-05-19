@@ -62,6 +62,9 @@ python3 hd73512_orbit.py
   consistent with Chevalier et al. (2023): M1 = 0.7877 ± 0.0105, M2 = 0.6948 ± 0.0066 Msun
 - a_rel = 21.46 mas = 0.567 AU, i = 84.5 deg
 - CHARA J2025.8207: predicted PA = 29.65 deg, observed 29.56 deg (Delta = 0.09 deg)
+- Orbit scale: spectroscopic a_rel = 21.46 mas; CHARA-implied a_rel = 21.09 mas (−1.7%
+  agreement), vs Gaia SB2 which is −8.5% off — further evidence the Griffin solution
+  is preferred
 
 ### Luminosity ratios L(K0V)/L(K4V)
 
