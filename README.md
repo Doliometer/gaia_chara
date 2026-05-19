@@ -37,18 +37,22 @@ is the preferred solution.
 
 ## Data files
 
-| File | Contents |
-|------|----------|
-| `gaia_hd73512.ecsv` | Gaia DR3 NSS two-body orbit (Orbital + SB2 rows) |
-| `gaia_source_hd73512.ecsv` | Gaia DR3 main source table (photometry, parallax) |
+| File | Contents | Source |
+|------|----------|--------|
+| `gaia_hd73512.ecsv` | Gaia DR3 NSS two-body orbit (Orbital + SB2 rows) | Gaia archive |
+| `gaia_source_hd73512.ecsv` | Gaia DR3 main source table (photometry, parallax) | Gaia archive |
+| `tmass_hd73512.ecsv` | 2MASS J/H/K photometry | VizieR II/246 via astroquery |
 
-2MASS photometry (H = 5.736, K = 5.618) is sourced from Simbad at runtime.
+All three files are Astropy ECSV format and are read directly by the script.
+The 2MASS file was downloaded using `astroquery.vizier` (Cutri et al. 2003),
+the same approach as the Gaia files but querying VizieR rather than the Gaia archive.
 
 ## Requirements
 
 - Python 3.8+
 - numpy
 - astropy
+- astroquery (only needed to re-download `tmass_hd73512.ecsv`)
 
 ## Usage
 
