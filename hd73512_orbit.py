@@ -79,6 +79,7 @@ DATASETS = [
         'band_label': None,
         'caveat'    : ('RVS extraction window mis-centred due to large a0=3.4 mas; '
                        'orbital parameters likely biased (Chevalier et al. 2023, A&A 678, A19)'),
+        # gamma shift vs Griffin (~34.52) is partly or wholly due to RVS bias, not necessarily a third body
     },
 ]
 
@@ -260,6 +261,7 @@ def combined_solution(A, B, F, G, parallax_mas, dataset, gaia_T0_offset):
     return {
         'label'           : dataset['label'],
         'caveat'          : dataset.get('caveat'),
+        'gamma_kms'       : dataset['gamma_kms'],
         'a_phot_mas'      : a_phot_mas,
         'i_deg'           : i_deg,
         'omega_deg'       : omega_deg,
@@ -413,6 +415,7 @@ def print_solution(sol):
     print(f"    e               = {sol['e']:.4f}")
     print(f"    K_heavy (K0V)   = {sol['K_heavy_kms']:.2f} km/s")
     print(f"    K_light (K4V)   = {sol['K_light_kms']:.2f} km/s")
+    print(f"    gamma (CoM RV)  = {sol['gamma_kms']:.2f} km/s")
     print(f"    M_heavy/M_light = {sol['q']:.3f}")
     print()
     print(f"  Combined orbital solution")
@@ -458,6 +461,7 @@ def print_comparison(solutions):
         ("e",                     'e',              '{:10.4f}', '{:10.4f}', '{:+9.4f}'),
         ("K_heavy (km/s)",        'K_heavy_kms',    '{:10.2f}', '{:10.2f}', '{:+9.2f}'),
         ("K_light (km/s)",        'K_light_kms',    '{:10.2f}', '{:10.2f}', '{:+9.2f}'),
+        ("gamma (km/s)",          'gamma_kms',      '{:10.2f}', '{:10.2f}', '{:+9.2f}'),
         ("M_heavy/M_light",       'q',              '{:10.3f}', '{:10.3f}', '{:+9.3f}'),
         ("a_rel (AU)",            'a_rel_AU',       '{:10.4f}', '{:10.4f}', '{:+9.4f}'),
         ("M_heavy (Msun)",        'M_heavy_Msun',   '{:10.4f}', '{:10.4f}', '{:+9.4f}'),
