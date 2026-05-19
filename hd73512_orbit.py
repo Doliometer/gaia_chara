@@ -383,9 +383,10 @@ def luminosity_table(solutions, gaia_source, chara, model):
     print(f"\n  Implied component colours")
     print(f"  {'':10}  {'K0V':>9}  {'K4V':>9}  {'note'}")
     print(f"  {'-'*52}")
-    print(f"  {'BP-G':<10}  {BP1-G1:>9.3f}  {BP2-G2:>9.3f}  K0V~0.35, K4V~0.55 typ.")
-    print(f"  {'G-RP':<10}  {G1-RP1:>9.3f}  {G2-RP2:>9.3f}  K0V~0.52, K4V~0.67 typ.")
-    print(f"  {'BP-RP':<10}  {BP1-RP1:>9.3f}  {BP2-RP2:>9.3f}  K0V~0.88, K4V~1.23 typ.")
+    print(f"  {'BP-G':<10}  {BP1-G1:>9.3f}  {BP2-G2:>9.3f}  K0V~0.42, K4V~0.64 typ.")
+    print(f"  {'G-RP':<10}  {G1-RP1:>9.3f}  {G2-RP2:>9.3f}  K0V~0.56, K4V~0.70 typ.")
+    print(f"  {'BP-RP':<10}  {BP1-RP1:>9.3f}  {BP2-RP2:>9.3f}  K0V~0.98, K4V~1.34 typ.")
+    print(f"  (typical values: Pecaut & Mamajek, Teff K0V=5270K, K4V=4600K)")
 
     # Absolute magnitudes
     parallax_mas = float(gaia_source['parallax'])
