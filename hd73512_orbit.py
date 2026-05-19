@@ -100,6 +100,13 @@ CHARA = {
     'lam_K_nm' : 2190.0,             # effective wavelength, K band (nm)
 }
 
+# 2MASS combined photometry (Cutri et al. 2003, via Simbad)
+TMASS = {
+    'J_mag': 6.218,   # ± 0.026
+    'H_mag': 5.736,   # ± 0.038
+    'K_mag': 5.618,   # ± 0.021
+}
+
 # Approximate effective wavelengths for Gaia passbands and Coravel (nm)
 BAND_WAVELENGTHS = {
     'Coravel' : 510.0,
@@ -307,7 +314,7 @@ def planck_ratio(lam_nm, T1_K, T2_K, R1_Rsun, R2_Rsun):
     return (R1_Rsun / R2_Rsun)**2 * B_ratio
 
 
-def luminosity_table(solutions, gaia_source, chara, model):
+def luminosity_table(solutions, gaia_source, chara, model, tmass):
     """
     Compile L_heavy/L_light from all sources and compare to a blackbody model.
     Also derive individual component magnitudes in each Gaia band.
@@ -369,24 +376,30 @@ def luminosity_table(solutions, gaia_source, chara, model):
     G1,  G2  = split_mag(G_comb,  beta1_G)
     BP1, BP2 = split_mag(BP_comb, beta1_BP_model)
     RP1, RP2 = split_mag(RP_comb, beta1_RP_model)
+    H1,  H2  = split_mag(tmass['H_mag'], beta_H)
+    K1,  K2  = split_mag(tmass['K_mag'], beta_K)
 
-    print(f"\n  Individual component magnitudes  (Gaia G from astrometry; BP, RP from BB model)")
-    print(f"  {'':10}  {'Combined':>9}  {'K0V (1)':>9}  {'K4V (2)':>9}  {'beta1':>7}")
-    print(f"  {'-'*52}")
-    for band, mc, m1, m2, b1 in [
-        ('Gaia BP', BP_comb, BP1, BP2, beta1_BP_model),
-        ('Gaia G',  G_comb,  G1,  G2,  beta1_G),
-        ('Gaia RP', RP_comb, RP1, RP2, beta1_RP_model),
+    print(f"\n  Individual component magnitudes")
+    print(f"  {'':10}  {'Combined':>9}  {'K0V (1)':>9}  {'K4V (2)':>9}  {'beta1':>7}  source")
+    print(f"  {'-'*62}")
+    for band, mc, m1, m2, b1, src in [
+        ('Gaia BP', BP_comb, BP1, BP2, beta1_BP_model, 'BB model'),
+        ('Gaia G',  G_comb,  G1,  G2,  beta1_G,        'astrometry'),
+        ('Gaia RP', RP_comb, RP1, RP2, beta1_RP_model, 'BB model'),
+        ('2MASS H', tmass['H_mag'], H1, H2, beta_H,    'CHARA'),
+        ('2MASS K', tmass['K_mag'], K1, K2, beta_K,    'CHARA'),
     ]:
-        print(f"  {band:<10}  {mc:>9.3f}  {m1:>9.3f}  {m2:>9.3f}  {b1:>7.4f}")
+        print(f"  {band:<10}  {mc:>9.3f}  {m1:>9.3f}  {m2:>9.3f}  {b1:>7.4f}  {src}")
 
     print(f"\n  Implied component colours")
     print(f"  {'':10}  {'K0V':>9}  {'K4V':>9}  {'note'}")
-    print(f"  {'-'*52}")
+    print(f"  {'-'*60}")
     print(f"  {'BP-G':<10}  {BP1-G1:>9.3f}  {BP2-G2:>9.3f}  K0V~0.42, K4V~0.64 typ.")
     print(f"  {'G-RP':<10}  {G1-RP1:>9.3f}  {G2-RP2:>9.3f}  K0V~0.56, K4V~0.70 typ.")
     print(f"  {'BP-RP':<10}  {BP1-RP1:>9.3f}  {BP2-RP2:>9.3f}  K0V~0.98, K4V~1.34 typ.")
-    print(f"  (typical values: Pecaut & Mamajek, Teff K0V=5270K, K4V=4600K)")
+    print(f"  {'G-H':<10}  {G1-H1:>9.3f}  {G2-H2:>9.3f}  K0V~1.64, K4V~2.09 typ.")
+    print(f"  {'H-K':<10}  {H1-K1:>9.3f}  {H2-K2:>9.3f}  K0V~0.07, K4V~0.19 typ.")
+    print(f"  (Gaia typical: Pecaut & Mamajek, Teff K0V=5270K, K4V=4600K)")
 
     # Absolute magnitudes
     parallax_mas = float(gaia_source['parallax'])
@@ -518,4 +531,4 @@ if __name__ == '__main__':
 
     print_comparison(solutions)
 
-    luminosity_table(solutions, gaia_source, CHARA, STELLAR_MODEL)
+    luminosity_table(solutions, gaia_source, CHARA, STELLAR_MODEL, TMASS)
