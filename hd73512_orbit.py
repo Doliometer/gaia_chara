@@ -12,6 +12,20 @@ Two spectroscopic datasets are compared:
   - Griffin (2009, The Observatory 129, 317), Cambridge Coravel
   - Gaia DR3 SB2 solution
 
+NOTE on Gaia SB2 reliability
+  Chevalier et al. (2023, A&A 678, A19) identify HD 73512 as a 5-sigma
+  outlier when comparing their Griffin+Gaia masses against the Gaia DR3
+  direct SB2 masses.  They attribute this to the large photocentre orbit
+  (a0 = 3.4 mas): the Gaia RVS places its extraction window at the position
+  predicted by the standard 5-parameter astrometric solution, which ignores
+  the orbital motion.  For a0 = 3.4 mas (vs ~0.8 mas for the other two
+  comparison SB2 stars), the extraction window is significantly mis-centred
+  at many epochs, corrupting the measured radial velocities.  The Gaia SB2
+  orbital parameters (P, e, K1, K2) should therefore be treated with caution;
+  the Griffin solution combined with the Gaia astrometric orbit is preferred.
+  Chevalier et al. confirm: M1=0.7877±0.0105, M2=0.6948±0.0066 Msun,
+  beta(K4V)=0.3123±0.0017, F2=-0.03, using Griffin+Gaia.
+
 NOTE on component conventions
   Griffin labels the heavier (K0V, brighter) star as the primary.
   Gaia SB2 labels the larger-amplitude component as primary, which is the
@@ -63,6 +77,8 @@ DATASETS = [
         'gamma_kms' : 32.80,
         'lum_ratio' : None,
         'band_label': None,
+        'caveat'    : ('RVS extraction window mis-centred due to large a0=3.4 mas; '
+                       'orbital parameters likely biased (Chevalier et al. 2023, A&A 678, A19)'),
     },
 ]
 
@@ -243,6 +259,7 @@ def combined_solution(A, B, F, G, parallax_mas, dataset, gaia_T0_offset):
 
     return {
         'label'           : dataset['label'],
+        'caveat'          : dataset.get('caveat'),
         'a_phot_mas'      : a_phot_mas,
         'i_deg'           : i_deg,
         'omega_deg'       : omega_deg,
@@ -383,6 +400,8 @@ def print_solution(sol):
     print(f"\n{'='*w}")
     print(f"  {sol['label']}")
     print(f"{'='*w}")
+    if sol.get('caveat'):
+        print(f"  *** CAVEAT: {sol['caveat']} ***")
     print(f"  Astrometric elements  (Thiele-Innes, fixed)")
     print(f"    a_phot          = {sol['a_phot_mas']:.3f} mas")
     print(f"    i               = {sol['i_deg']:.2f} deg")
