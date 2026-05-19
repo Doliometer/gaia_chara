@@ -1,0 +1,133 @@
+# %ECSV 1.0
+# ---
+# datatype:
+# - name: RAJ2000
+#   unit: deg
+#   datatype: float64
+#   format: '{:10.6f}'
+#   description: (ra) Right ascension (J2000)
+#   meta: !!omap
+#   - {ucd: POS_EQ_RA_MAIN}
+#   - {width: 10}
+#   - {precision: '6'}
+# - name: DEJ2000
+#   unit: deg
+#   datatype: float64
+#   format: '{:10.6f}'
+#   description: (dec) Declination (J2000) (dec)
+#   meta: !!omap
+#   - {ucd: POS_EQ_DEC_MAIN}
+#   - {width: 10}
+#   - {precision: '6'}
+# - name: _2MASS
+#   datatype: string
+#   description: (designation) Source designation (1)
+#   meta: !!omap
+#   - {ucd: ID_MAIN}
+#   - {_votable_string_dtype: char}
+# - name: Jmag
+#   unit: mag
+#   datatype: float32
+#   format: '{:6.3f}'
+#   description: ?(j_m) J selected default magnitude (2)
+#   meta: !!omap
+#   - {ucd: PHOT_JHN_J}
+#   - {width: 6}
+#   - {precision: '3'}
+#   - values: {'null': .nan}
+# - name: e_Jmag
+#   unit: mag
+#   datatype: float32
+#   format: '{:6.3f}'
+#   description: ?(j_msigcom) J total magnitude uncertainty (4)
+#   meta: !!omap
+#   - {ucd: ERROR}
+#   - {width: 6}
+#   - {precision: '3'}
+#   - values: {'null': .nan}
+# - name: Hmag
+#   unit: mag
+#   datatype: float32
+#   format: '{:6.3f}'
+#   description: ?(h_m) H selected default magnitude (2)
+#   meta: !!omap
+#   - {ucd: PHOT_JHN_H}
+#   - {width: 6}
+#   - {precision: '3'}
+#   - values: {'null': .nan}
+# - name: e_Hmag
+#   unit: mag
+#   datatype: float32
+#   format: '{:6.3f}'
+#   description: ?(h_msigcom) H total magnitude uncertainty (4)
+#   meta: !!omap
+#   - {ucd: ERROR}
+#   - {width: 6}
+#   - {precision: '3'}
+#   - values: {'null': .nan}
+# - name: Kmag
+#   unit: mag
+#   datatype: float32
+#   format: '{:6.3f}'
+#   description: ?(k_m) K selected default magnitude (2)
+#   meta: !!omap
+#   - {ucd: PHOT_JHN_K}
+#   - {width: 6}
+#   - {precision: '3'}
+#   - values: {'null': .nan}
+# - name: e_Kmag
+#   unit: mag
+#   datatype: float32
+#   format: '{:6.3f}'
+#   description: ?(k_msigcom) K total magnitude uncertainty (4)
+#   meta: !!omap
+#   - {ucd: ERROR}
+#   - {width: 6}
+#   - {precision: '3'}
+#   - values: {'null': .nan}
+# - name: Qflg
+#   datatype: string
+#   description: (ph_qual) JHK Photometric quality flag (5)
+#   meta: !!omap
+#   - {ucd: CODE_QUALITY}
+#   - {_votable_string_dtype: char}
+# - name: Rflg
+#   datatype: string
+#   description: (rd_flg) Source of JHK default mag (6)
+#   meta: !!omap
+#   - {ucd: REFER_CODE}
+#   - {_votable_string_dtype: char}
+# - name: Bflg
+#   datatype: string
+#   description: (bl_flg) JHK components fit to source (7)
+#   meta: !!omap
+#   - {ucd: CODE_MISC}
+#   - {_votable_string_dtype: char}
+# - name: Cflg
+#   datatype: string
+#   description: (cc_flg) Artifact contamination, confusion (8)
+#   meta: !!omap
+#   - {ucd: CODE_MISC}
+#   - {_votable_string_dtype: char}
+# - name: Xflg
+#   datatype: uint8
+#   description: '[0,2] (gal_contam) Extended source contamination (10)'
+#   meta: !!omap
+#   - {ucd: CODE_MISC}
+#   - {width: 1}
+# - name: Aflg
+#   datatype: uint8
+#   description: '[0,1] (mp_flg) Association with asteroid or comet (11)'
+#   meta: !!omap
+#   - {ucd: CODE_MISC}
+#   - {width: 1}
+# meta: !!omap
+# - {ID: II_246_out}
+# - {name: II/246/out}
+# - {description: 2MASS Point Source Catalog entry for HD 73512 (HIP 42418)}
+# - {source: 'VizieR catalogue II/246 (Cutri et al. 2003), via astroquery'}
+# - {object: HD 73512}
+# - {query_radius: 10 arcsec}
+# schema: astropy-2.0
+RAJ2000 DEJ2000 _2MASS Jmag e_Jmag Hmag e_Hmag Kmag e_Kmag Qflg Rflg Bflg Cflg Xflg Aflg
+129.751037 6.955464 08390024+0657196 6.218 0.026 5.736 0.038 5.618 0.021 AAA 111 111 000 0 0

@@ -100,12 +100,7 @@ CHARA = {
     'lam_K_nm' : 2190.0,             # effective wavelength, K band (nm)
 }
 
-# 2MASS combined photometry (Cutri et al. 2003, via Simbad)
-TMASS = {
-    'J_mag': 6.218,   # ± 0.026
-    'H_mag': 5.736,   # ± 0.038
-    'K_mag': 5.618,   # ± 0.021
-}
+# 2MASS combined photometry — loaded from tmass_hd73512.ecsv at runtime
 
 # Approximate effective wavelengths for Gaia passbands and Coravel (nm)
 BAND_WAVELENGTHS = {
@@ -518,6 +513,7 @@ if __name__ == '__main__':
 
     ecsv_nss    = os.path.join(os.path.dirname(__file__), 'gaia_hd73512.ecsv')
     ecsv_source = os.path.join(os.path.dirname(__file__), 'gaia_source_hd73512.ecsv')
+    ecsv_tmass  = os.path.join(os.path.dirname(__file__), 'tmass_hd73512.ecsv')
 
     t_nss = Table.read(ecsv_nss, format='ascii.ecsv')
     orb   = t_nss[t_nss['nss_solution_type'] == 'Orbital'][0]
@@ -534,6 +530,13 @@ if __name__ == '__main__':
     print(f"  Gaia Orbital T0 = MJD {Gaia_ref_MJD + GAIA_T0_OFFSET:.3f}")
 
     gaia_source = Table.read(ecsv_source, format='ascii.ecsv')[0]
+
+    _tmass = Table.read(ecsv_tmass, format='ascii.ecsv')[0]
+    TMASS  = {
+        'J_mag': float(_tmass['Jmag']),
+        'H_mag': float(_tmass['Hmag']),
+        'K_mag': float(_tmass['Kmag']),
+    }
 
     solutions = [
         combined_solution(A, B, F, G, parallax, ds, GAIA_T0_OFFSET)
