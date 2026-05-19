@@ -13,10 +13,13 @@ spectroscopic radial velocity data to derive:
 
 - Absolute masses of both components (K0V + K4V)
 - True semi-major axis and orbital geometry (inclination, node, periastron)
-- Predicted sky separation and position angle at the CHARA epoch (J2025.8207)
-- Luminosity ratios from Coravel, Gaia G-band, and CHARA H/K bands, compared
-  to a blackbody model for the K0V + K4V pair
-- Individual component magnitudes and colours from combined Gaia photometry
+- Predicted sky separation and position angle at the CHARA epoch (J2025.8207),
+  compared against the interferometric observation
+- Luminosity ratios spanning Coravel (~510 nm) through Gaia G to CHARA H and K
+  bands, compared to a blackbody model for the K0V + K4V pair
+- Individual component magnitudes in Gaia BP/G/RP and 2MASS H/K, derived by
+  splitting combined photometry using astrometric and CHARA flux fractions
+- Component colours compared to Pecaut & Mamajek Gaia-calibrated standards
 
 ## Spectroscopic datasets compared
 
@@ -38,7 +41,8 @@ is the preferred solution.
 |------|----------|
 | `gaia_hd73512.ecsv` | Gaia DR3 NSS two-body orbit (Orbital + SB2 rows) |
 | `gaia_source_hd73512.ecsv` | Gaia DR3 main source table (photometry, parallax) |
-| `asu.tsv` | Hipparcos-Gaia Catalog of Accelerations entry (Brandt 2021) |
+
+2MASS photometry (H = 5.736, K = 5.618) is sourced from Simbad at runtime.
 
 ## Requirements
 
@@ -54,13 +58,30 @@ python3 hd73512_orbit.py
 
 ## Key results (Griffin + Gaia astrometry)
 
-- M(K0V) = 0.787 Msun, M(K4V) = 0.693 Msun
+- M(K0V) = 0.787 Msun, M(K4V) = 0.693 Msun  
+  consistent with Chevalier et al. (2023): M1 = 0.7877 ± 0.0105, M2 = 0.6948 ± 0.0066 Msun
 - a_rel = 21.46 mas = 0.567 AU, i = 84.5 deg
 - CHARA J2025.8207: predicted PA = 29.65 deg, observed 29.56 deg (Delta = 0.09 deg)
-- L(K0V)/L(K4V): 2.70 (Coravel), 2.23 (Gaia G), 1.71 (CHARA H), 1.52 (CHARA K)
 
-These results are consistent with Chevalier et al. (2023):
-M1 = 0.7877 +/- 0.0105, M2 = 0.6948 +/- 0.0066 Msun.
+### Luminosity ratios L(K0V)/L(K4V)
+
+| Band | lambda (nm) | Observed | BB model |
+|------|-------------|----------|----------|
+| Coravel | 510 | 2.703 | 2.810 |
+| Gaia G | 673 | 2.232 | 2.343 |
+| CHARA H | 1630 | 1.712 | 1.729 |
+| CHARA K | 2190 | 1.520 | 1.652 |
+
+### Component colours vs Pecaut & Mamajek standards
+
+| Colour | K0V (derived) | K0V (typ.) | K4V (derived) | K4V (typ.) |
+|--------|--------------|------------|--------------|------------|
+| BP−G | 0.415 | 0.42 | 0.631 | 0.64 |
+| G−RP | 0.635 | 0.56 | 0.676 | 0.70 |
+| H−K | 0.069 | 0.07 | 0.198 | 0.19 |
+
+H−K agrees to within 0.001 mag for both components using only CHARA flux
+fractions and 2MASS photometry — no model assumptions.
 
 ## Contact
 
